@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Fragment_Mono, Source_Serif_4 } from "next/font/google";
-import { CommandMenu } from "@/components/command-menu";
+import { CommandMenuLauncher } from "@/components/command-menu-launcher";
 import { RevealObserver } from "@/components/reveal-observer";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -15,8 +15,6 @@ const archivo = Archivo({
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
   subsets: ["latin"],
-  axes: ["opsz"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -60,8 +58,10 @@ export const viewport: Viewport = {
   ],
 };
 
-// Runs before paint: marks JS as available (enables reveal animations) and applies a stored theme.
-const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})()`;
+// Runs before paint: marks JS as available, applies a stored theme, and sets up the
+// scroll reveal on DOMContentLoaded so content already in view shows without waiting for
+// hydration. RevealObserver takes over on client navigations.
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}document.addEventListener('DOMContentLoaded',function(){var els=document.querySelectorAll('[data-reveal]');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('is-in')});return}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:0.05});els.forEach(function(e){io.observe(e)})})})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -81,7 +81,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         {children}
-        <CommandMenu />
+        <CommandMenuLauncher />
         <RevealObserver />
       </body>
     </html>

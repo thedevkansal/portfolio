@@ -26,7 +26,7 @@ function matches(text: string, query: string) {
   return true;
 }
 
-export function CommandMenu() {
+export default function CommandMenu({ openOnMount = false }: { openOnMount?: boolean }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
@@ -46,6 +46,10 @@ export function CommandMenu() {
     d.showModal();
     inputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (openOnMount) open();
+  }, [openOnMount, open]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
