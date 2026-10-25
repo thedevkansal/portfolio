@@ -98,13 +98,13 @@ function Portrait() {
         />
         <div className="absolute inset-0 overflow-hidden rounded-b-[2rem]">
           <Image
-            src="/me/portrait.webp"
-            alt="Dev Kansal in a suit, smiling, wearing an E-Summit badge"
+            src="/me/headshot.webp"
+            alt="Dev Kansal in a black suit and tie, smiling"
             fill
             sizes="(min-width: 768px) 420px, 360px"
             loading="eager"
             fetchPriority="high"
-            className="object-contain object-bottom"
+            className="object-cover object-bottom"
           />
         </div>
       </div>
@@ -118,7 +118,7 @@ function Portrait() {
       </div>
 
       <div
-        className="sticker meta absolute top-[44%] -right-2 bg-mint px-3.5 py-2.5 sm:-right-6"
+        className="sticker meta absolute top-[58%] -right-2 bg-mint px-3.5 py-2.5 sm:top-[44%] sm:-right-6"
         style={{ "--tilt": "5deg" } as React.CSSProperties}
       >
         <span className="block opacity-70">Local time</span>
@@ -128,7 +128,7 @@ function Portrait() {
       </div>
 
       <div
-        className="sticker meta absolute bottom-[7%] -left-2 bg-rose px-3.5 py-2.5 sm:-left-10"
+        className="sticker meta absolute bottom-[4%] -left-2 bg-rose px-3.5 py-2.5 sm:bottom-[7%] sm:-left-10"
         style={{ "--tilt": "-3deg" } as React.CSSProperties}
       >
         <span className="display block text-[1.05rem] font-semibold">4,000+ attendees</span>

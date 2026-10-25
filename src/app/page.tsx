@@ -106,15 +106,15 @@ export default function Home() {
           >
             <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
               <div className="max-w-[30rem]">
-                <h2 id="contact-title" className="meta flex items-center gap-3 opacity-80">
+                <h2 id="contact-title" className="meta flex items-center gap-3">
                   <Image
-                    src="/me/avatar.webp"
+                    src="/me/headshot-avatar.webp"
                     alt=""
-                    width={48}
-                    height={48}
-                    className="size-12 rounded-full ring-2 ring-accent-ink/80"
+                    width={56}
+                    height={56}
+                    className="size-14 rounded-full ring-2 ring-accent-ink"
                   />
-                  Contact
+                  <span className="opacity-80">Contact</span>
                 </h2>
                 <p className="mt-5 text-[clamp(1.45rem,2.6vw,1.9rem)] leading-[1.2] text-balance">
                   Hiring backend or infrastructure interns for summer 2027? I’d like to hear from you.
