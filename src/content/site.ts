@@ -3,7 +3,7 @@ import type { Achievement, Link, Role } from "./types";
 export const site = {
   name: "Dev Kansal",
   handle: "thedevkansal",
-  headline: "I build backends that stay correct when everyone hits them at once.",
+  headline: "Backend engineer building systems that stay correct when everyone hits them at once.",
   description:
     "Dev Kansal is a pre-final year student at IIT Roorkee building backends, distributed systems and cloud-native infrastructure with TypeScript, NestJS, Postgres and Redis.",
   status: "Pre-final year @ IIT Roorkee",

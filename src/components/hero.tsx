@@ -23,20 +23,17 @@ export function Hero() {
           <span className="text-muted">{site.status}</span>
         </div>
 
-        <h1
-          id="hero-title"
-          className="display display-wide mt-6 text-[clamp(3.25rem,8.5vw,5.75rem)] leading-[0.92] font-[650]"
-        >
-          {site.name}
+        <h1 id="hero-title" className="mt-8">
+          <span className="block text-[clamp(1.5rem,3vw,2.1rem)] leading-tight text-muted">
+            Hi, I’m
+          </span>
+          <span className="display display-wide mt-1 block text-[clamp(3.25rem,8.5vw,5.75rem)] leading-[0.92] font-[650]">
+            {site.name}
+          </span>
         </h1>
 
-        <p className="mt-6 max-w-[22ch] text-[clamp(1.5rem,3vw,2.15rem)] leading-[1.18] tracking-[-0.01em] text-balance">
+        <p className="mt-6 max-w-[46ch] text-[clamp(1.1rem,1.6vw,1.3rem)] leading-snug text-balance">
           {site.headline}
-        </p>
-        <p className="mt-5 max-w-[54ch] text-muted">
-          Lately that means ride matching guarded by Redis and Postgres locks, check-in for a
-          4,000-person summit, and graph memory for AI agents. I work mostly in TypeScript,
-          NestJS, Postgres and Redis.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">

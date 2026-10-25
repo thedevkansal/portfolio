@@ -109,3 +109,4 @@ The first build read as austere. Changes:
 - **Contact** becomes a full cobalt panel with a casual avatar.
 - Background lifted to `#FAFAFC`. Section spacing tightened from 128px to 96px on desktop.
 - Stack items are rounded chips. Still grouped, still no logos.
+- Hero copy simplified at the owner's request: "Hi, I'm" greeting above the name, then a single one-line intro. The supporting paragraph is gone.
