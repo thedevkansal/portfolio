@@ -11,6 +11,7 @@ export const site = {
   location: { city: "Roorkee", timeZone: "Asia/Kolkata" },
   email: "devkansal24024@gmail.com",
   resume: "/Dev_Kansal_Resume.pdf",
+  source: "https://github.com/thedevkansal/portfolio",
   url:
     process.env.NEXT_PUBLIC_SITE_URL ??
     (process.env.VERCEL_PROJECT_PRODUCTION_URL
