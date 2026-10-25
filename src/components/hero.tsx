@@ -101,6 +101,8 @@ function Portrait() {
             sizes="(min-width: 768px) 420px, 360px"
             loading="eager"
             fetchPriority="high"
+            // Already a pre-sized 880px WebP: skip the optimizer round trip for the LCP image.
+            unoptimized
             className="object-cover object-bottom"
           />
         </div>
