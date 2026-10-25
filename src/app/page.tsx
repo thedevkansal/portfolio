@@ -5,6 +5,7 @@ import { Hero } from "@/components/hero";
 import { ArrowUpRight } from "@/components/icons";
 import { Nav } from "@/components/nav";
 import { Section } from "@/components/section";
+import { TechIcon } from "@/components/tech-icon";
 import { WorkList } from "@/components/work-list";
 import { projects } from "@/content/projects";
 import { achievements, roles, site, socials, stack } from "@/content/site";
@@ -72,14 +73,15 @@ export default function Home() {
           <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-[8rem_1fr]">
             {stack.map((g) => (
               <div key={g.group} className="contents">
-                <dt className="meta pt-1.5 text-muted">{g.group}</dt>
+                <dt className="meta pt-2 text-muted">{g.group}</dt>
                 <dd>
                   <ul className="flex flex-wrap gap-2">
                     {g.items.map((item) => (
                       <li
                         key={item}
-                        className="rounded-full border border-rule bg-surface px-3 py-1 text-[0.95rem] leading-snug"
+                        className="inline-flex items-center gap-2 rounded-full border border-rule bg-surface py-1.5 pr-3.5 pl-2.5 text-[0.95rem] leading-snug transition-transform hover:-translate-y-0.5"
                       >
+                        <TechIcon name={item} className="size-[18px] shrink-0" />
                         {item}
                       </li>
                     ))}
