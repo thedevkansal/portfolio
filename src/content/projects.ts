@@ -59,22 +59,22 @@ export const projects: Project[] = [
     ],
     approach: [
       "A NestJS API with a matching engine built on Redis. A ride request runs a GEO search for online drivers within a radius, then ranks them by a weighted score of distance, rating and acceptance rate. The weights live in config and must sum to 1.",
-      "Matching runs as a BullMQ job. The chosen driver has 15 seconds to accept. A delayed job times the offer out, and the ride is re-matched or ends as NO_DRIVER_FOUND. Every ride follows one state machine from SEARCHING to COMPLETED, enforced in the service layer.",
-      "Live updates go over Socket.IO, with separate /passenger and /driver namespaces authenticated by JWT. Driver locations live in Redis with a TTL. Postgres gets a throttled copy: a SET NX key lets each driver flush at most once per interval.",
-      "Production basics are in from the start: env validated at boot, refresh-token rotation with blacklisting, Redis rate limiting, Helmet, and a /health endpoint that checks both Postgres and Redis.",
+      "Matching runs as a BullMQ job. The chosen driver has 15 seconds to accept. A delayed job times the offer out, and the ride is re-matched or ends as `NO_DRIVER_FOUND`. Every ride follows one state machine from `SEARCHING` to `COMPLETED`, enforced in the service layer.",
+      "Live updates go over Socket.IO, with separate `/passenger` and `/driver` namespaces authenticated by JWT. Driver locations live in Redis with a TTL. Postgres gets a throttled copy: a `SET NX` key lets each driver flush at most once per interval.",
+      "Production basics are in from the start: env validated at boot, refresh-token rotation with blacklisting, Redis rate limiting, Helmet, and a `/health` endpoint that checks both Postgres and Redis.",
     ],
     decision: {
       title: "Two locks for one driver",
       body: [
         "Several matching workers can run at once, so two rides can pick the same best driver. I lock at two layers.",
-        "First, a Redis lock (driver:lock:{id}, SET NX with a 20-second expiry) is the fast path. A worker that can't take it skips to the next candidate instead of waiting. Second, the assignment itself happens in a Postgres transaction with SELECT FOR UPDATE on the ride row. The Redis lock keeps workers from contending. The row lock is the safety net, because a Redis lock can expire and the database is what must stay correct. If the ride changed state in between, the worker releases the driver lock so that driver stays available.",
+        "First, a Redis lock (`driver:lock:{id}`, `SET NX` with a 20-second expiry) is the fast path. A worker that can't take it skips to the next candidate instead of waiting. Second, the assignment itself happens in a Postgres transaction with `SELECT FOR UPDATE` on the ride row. The Redis lock keeps workers from contending. The row lock is the safety net, because a Redis lock can expire and the database is what must stay correct. If the ride changed state in between, the worker releases the driver lock so that driver stays available.",
       ],
     },
     architecture: [
-      { step: "Request", detail: "The passenger app creates a ride in SEARCHING and enqueues a match-ride job." },
-      { step: "Candidates", detail: "Redis GEOSEARCH within the radius, ranked by distance, rating and acceptance." },
-      { step: "Lock", detail: "Redis SET NX on the driver, then SELECT FOR UPDATE on the ride inside a transaction." },
-      { step: "Offer", detail: "SEARCHING becomes ASSIGNED and the driver is notified over Socket.IO. A delayed job starts the 15-second window." },
+      { step: "Request", detail: "The passenger app creates a ride in `SEARCHING` and enqueues a match-ride job." },
+      { step: "Candidates", detail: "Redis `GEOSEARCH` within the radius, ranked by distance, rating and acceptance." },
+      { step: "Lock", detail: "Redis `SET NX` on the driver, then `SELECT FOR UPDATE` on the ride inside a transaction." },
+      { step: "Offer", detail: "`SEARCHING` becomes `ASSIGNED` and the driver is notified over Socket.IO. A delayed job starts the 15-second window." },
       { step: "Accept or time out", detail: "Accept moves the ride forward. Timeout or decline re-matches, excluding that driver." },
       { step: "Track", detail: "Driver heartbeats update Redis and stream to the ride room. Postgres is flushed on a throttle." },
     ],
@@ -116,20 +116,20 @@ export const projects: Project[] = [
       "Steal the blacksmith's hammer and only the blacksmith sees it. Over the next simulated hours the story spreads from person to person, losing confidence each time it's retold, until a guard who saw nothing confronts you. Ask him \"How do you know?\" and he answers with the exact chain of people it came through.",
     ],
     approach: [
-      "Each agent's memory is a subgraph in FalkorDB: what they saw (episodic), what they believe and who told them (semantic, with provenance), and what they know how to do (procedural). Telling someone a story adds a TOLD edge. The listener's confidence is the speaker's confidence × their trust in the speaker × 0.9, and below 0.3 the story is doubted rather than believed.",
+      "Each agent's memory is a subgraph in FalkorDB: what they saw (episodic), what they believe and who told them (semantic, with provenance), and what they know how to do (procedural). Telling someone a story adds a `TOLD` edge. The listener's confidence is the speaker's confidence × their trust in the speaker × 0.9, and below 0.3 the story is doubted rather than believed.",
       "\"How do you know?\" is a variable-length path query back to the eyewitness, and the path is the explanation. No path means no answer, rather than a guess.",
-      "Agents coordinate through a shared task board in the graph, with atomic claims and handoffs. 19 memory tools are exposed over MCP, each backed by hand-written, parameterised Cypher, so the model picks tools and arguments but never writes queries. Every read and graph algorithm goes through GRAPH.RO_QUERY.",
+      "Agents coordinate through a shared task board in the graph, with atomic claims and handoffs. 19 memory tools are exposed over MCP, each backed by hand-written, parameterised Cypher, so the model picks tools and arguments but never writes queries. Every read and graph algorithm goes through `GRAPH.RO_QUERY`.",
     ],
     decision: {
       title: "A graph per tenant, and agents that race",
       body: [
-        "Isolation between players is structural, not a WHERE clause. Each player gets their own graph, town:{player_id}, on one FalkorDB instance. A crime in one world can't leak into another, and deleting a stale world is a single GRAPH.DELETE.",
-        "Inside a world, all ten agents run each phase of a tick concurrently with asyncio.gather, against one graph. Competing claims on a task are settled by the database, not by app-side locks. A tick is 23–42 queries in about six sequential round trips, roughly 160 ms against FalkorDB Cloud. A built-in stress test runs 40 agents in 4 isolated worlds at about 450 writes/s on the free tier.",
+        "Isolation between players is structural, not a WHERE clause. Each player gets their own graph, `town:{player_id}`, on one FalkorDB instance. A crime in one world can't leak into another, and deleting a stale world is a single `GRAPH.DELETE`.",
+        "Inside a world, all ten agents run each phase of a tick concurrently with `asyncio.gather`, against one graph. Competing claims on a task are settled by the database, not by app-side locks. A tick is 23–42 queries in about six sequential round trips, roughly 160 ms against FalkorDB Cloud. A built-in stress test runs 40 agents in 4 isolated worlds at about 450 writes/s on the free tier.",
       ],
     },
     architecture: [
       { step: "Tick", detail: "The FastAPI engine advances a world. All ten agents move at once, by schedule or by task." },
-      { step: "Gossip", detail: "Each agent concurrently passes on its most salient belief along KNOWS edges, writing TOLD and BELIEVES." },
+      { step: "Gossip", detail: "Each agent concurrently passes on its most salient belief along `KNOWS` edges, writing `TOLD` and `BELIEVES`." },
       { step: "Coordinate", detail: "Agents post, claim, work and hand off tasks. Races on claims are settled in the graph." },
       { step: "Ask", detail: "Dialogue goes through a fixed tool catalogue (Claude tool use, or rule-based) and resolves names via full-text index first." },
       { step: "Explain", detail: "Answers return the provenance path, and the UI draws it across the map over WebSocket." },
@@ -171,7 +171,7 @@ export const projects: Project[] = [
     ],
     approach: [
       "Groups live in the browser, with no sign-up. Sharing a group mirrors it to Postgres so others can join by link, and optional Google sign-in brings your groups back on a new device.",
-      "Money is never a float. Amounts are bigint minor units, splits use largest-remainder allocation with a rotating tiebreak, and a deferred Postgres trigger rejects any bill whose payers and shares don't balance at commit.",
+      "Money is never a float. Amounts are `bigint` minor units, splits use largest-remainder allocation with a rotating tiebreak, and a deferred Postgres trigger rejects any bill whose payers and shares don't balance at commit.",
       "The server decides who is asking: every action that touches a shared group checks the caller's seat first. UPI IDs are encrypted at rest with AES-256-GCM, so a tampered value fails to decrypt instead of becoming a different, valid-looking ID. Settling is two-sided, because a UPI link can't report back that money moved, so the payee confirms.",
     ],
     decision: {
@@ -234,7 +234,7 @@ export const projects: Project[] = [
       { step: "Send", detail: "From a campaign via the Gmail API, or from Gmail compose through the extension. HTML gets a pixel and tracked links." },
       { step: "Fetch", detail: "The pixel route classifies the request: client, proxy, prefetch, self-view." },
       { step: "Respond", detail: "Withhold (503, no-store) for Gmail proxy prefetches; otherwise return the GIF." },
-      { step: "Record", detail: "The open is saved after the response, using Next's after(), so tracking never slows the image." },
+      { step: "Record", detail: "The open is saved after the response, using Next's `after()`, so tracking never slows the image." },
       { step: "Act", detail: "Dashboards, heatmaps and follow-up lists. Replies are pulled from Gmail into a shared inbox." },
     ],
     learned: [

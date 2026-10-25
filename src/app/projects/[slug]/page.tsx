@@ -6,9 +6,8 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/footer";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "@/components/icons";
 import { Nav } from "@/components/nav";
+import { Rich } from "@/components/rich";
 import { getProject, projectIndex, projects } from "@/content/projects";
-
-export const dynamicParams = false;
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -134,7 +133,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               <Block id="problem" title="Problem">
                 <div className="space-y-4">
                   {p.why.map((t) => (
-                    <p key={t}>{t}</p>
+                    <p key={t}>
+                      <Rich text={t} />
+                    </p>
                   ))}
                 </div>
               </Block>
@@ -142,7 +143,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               <Block id="approach" title="Approach">
                 <div className="space-y-4">
                   {p.approach.map((t) => (
-                    <p key={t}>{t}</p>
+                    <p key={t}>
+                      <Rich text={t} />
+                    </p>
                   ))}
                 </div>
 
@@ -151,7 +154,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                   <p className="meta mt-0.5 text-muted">The hardest decision</p>
                   <div className="mt-3 space-y-4">
                     {p.decision.body.map((t) => (
-                      <p key={t}>{t}</p>
+                      <p key={t}>
+                      <Rich text={t} />
+                    </p>
                     ))}
                   </div>
                 </div>
@@ -169,7 +174,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                       </span>
                       <div>
                         <p className="display text-[1rem] font-semibold">{s.step}</p>
-                        <p className="mt-0.5 text-muted">{s.detail}</p>
+                        <p className="mt-0.5 text-muted">
+                          <Rich text={s.detail} />
+                        </p>
                       </div>
                     </li>
                   ))}
@@ -181,7 +188,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                   {p.learned.map((t) => (
                     <li key={t} className="grid grid-cols-[1rem_1fr] gap-x-2">
                       <span aria-hidden className="mt-[0.7em] h-px w-2.5 bg-muted" />
-                      <span>{t}</span>
+                      <span>
+                        <Rich text={t} />
+                      </span>
                     </li>
                   ))}
                 </ul>
