@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dev Kansal: portfolio
 
-## Getting Started
+Personal portfolio for Dev Kansal: a single page plus a write-up for each project.
 
-First, run the development server:
+Next.js 16 (App Router, Cache Components), TypeScript, Tailwind CSS 4. The design rules are in [DESIGN.md](DESIGN.md).
+
+## Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Before pushing, run `npm run lint`, `npx tsc --noEmit` and `npm run build`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Edit content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All content lives in typed data files. You never need to touch the components to change it.
 
-## Learn More
+| What | Where |
+|---|---|
+| Name, headline, status, email, résumé path | `src/content/site.ts` (`site`) |
+| Social links | `src/content/site.ts` (`socials`) |
+| Achievements, experience, stack | `src/content/site.ts` |
+| Projects | `src/content/projects.ts` |
+| Résumé PDF | `public/Dev_Kansal_Resume.pdf` |
 
-To learn more about Next.js, take a look at the following resources:
+### Add a project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Append an object to `projects` in `src/content/projects.ts`. The order there is the order on the page, and it sets the `01`, `02`, … index.
+2. Put screenshots in `public/projects/<slug>/` and reference them in `shot` and `gallery` with their real pixel sizes.
+3. Wrap identifiers in backticks (`` `SET NX` ``). The detail page renders them as inline code.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The project gets a card, a `/projects/<slug>` page, an OG image, a sitemap entry and a command-menu entry automatically.
 
-## Deploy on Vercel
+## Deploy (Vercel)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Import the repo in Vercel. No configuration is needed. Canonical URLs, the sitemap and OG images use `VERCEL_PROJECT_PRODUCTION_URL`. To use a custom domain, set `NEXT_PUBLIC_SITE_URL=https://your-domain`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The footer's "Last updated" date is stamped at build time.
