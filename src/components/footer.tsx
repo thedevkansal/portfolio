@@ -1,0 +1,24 @@
+import { site } from "@/content/site";
+
+const built = new Date(process.env.BUILD_DATE ?? "2026-10-26");
+
+const updated = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: site.location.timeZone,
+}).format(built);
+
+export function Footer() {
+  return (
+    <footer className="mx-auto mt-24 max-w-[1120px] px-4 pb-10 md:mt-32 md:px-8">
+      <div className="meta flex flex-col gap-2 border-t border-rule pt-6 text-muted md:flex-row md:justify-between">
+        <p>© {built.getFullYear()} {site.name}</p>
+        <p>Set in Archivo, Source Serif 4 and Fragment Mono</p>
+        <p>
+          Last updated <time dateTime={built.toISOString().slice(0, 10)}>{updated}</time>
+        </p>
+      </div>
+    </footer>
+  );
+}
