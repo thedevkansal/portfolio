@@ -14,6 +14,9 @@ export function openCommandMenu() {
 export function Nav({ home = false }: { home?: boolean }) {
   const [active, setActive] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  // On the home page the hero already shows the name, so the nav only spells it out
+  // once the hero heading has scrolled away. Elsewhere it is always shown.
+  const [nameShown, setNameShown] = useState(!home);
   const mod = useSyncExternalStore(
     noop,
     () => (/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Ctrl"),
@@ -26,6 +29,8 @@ export function Nav({ home = false }: { home?: boolean }) {
       frame = 0;
       setScrolled(window.scrollY > 8);
       if (!home) return;
+      const heroName = document.getElementById("hero-title");
+      setNameShown(heroName ? heroName.getBoundingClientRect().bottom < 64 : true);
       const line = window.innerHeight * 0.35;
       let current: string | null = null;
       for (const s of sections) {
@@ -58,12 +63,16 @@ export function Nav({ home = false }: { home?: boolean }) {
         aria-label="Primary"
         className="mx-auto flex h-14 max-w-[1120px] items-center justify-between gap-4 px-4 md:px-8"
       >
-        <Link
-          href="/"
-          className="display text-[0.95rem] font-semibold tracking-tight"
-          aria-label={`${site.name}, home`}
-        >
-          {site.name}
+        <Link href="/" aria-label={`${site.name}, home`} className="group flex items-center gap-2.5">
+          <Mark className="size-8 transition-transform duration-300 ease-out-soft group-hover:-rotate-6" />
+          <span
+            aria-hidden
+            className={`display text-[0.95rem] font-semibold tracking-tight transition-[opacity,transform] duration-300 ease-out-soft ${
+              nameShown ? "translate-x-0 opacity-100" : "-translate-x-1 opacity-0"
+            }`}
+          >
+            {site.name}
+          </span>
         </Link>
 
         <div className="flex items-center gap-1">
@@ -107,5 +116,19 @@ export function Nav({ home = false }: { home?: boolean }) {
         </div>
       </nav>
     </header>
+  );
+}
+
+/** The "D." monogram, matching the favicon; colours follow the theme tokens. */
+function Mark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 64 64" aria-hidden className={className}>
+      <rect width="64" height="64" rx="16" fill="var(--ink)" />
+      <path
+        d="M16 15h13.5C40.3 15 48 22 48 32s-7.7 17-18.5 17H16V15zm8 7v20h5.2c6.2 0 10.5-4 10.5-10s-4.3-10-10.5-10H24z"
+        fill="var(--bg)"
+      />
+      <circle cx="51" cy="48" r="5" fill="var(--accent)" />
+    </svg>
   );
 }

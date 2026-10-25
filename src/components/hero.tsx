@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="mx-auto grid max-w-[1120px] gap-x-8 gap-y-12 px-4 pt-8 md:grid-cols-12 md:items-center md:px-8 md:pt-16"
+      className="mx-auto grid min-h-[calc(100svh-3.5rem)] max-w-[1120px] content-center gap-x-8 gap-y-12 px-4 py-10 md:grid-cols-12 md:items-center md:px-8"
     >
       <div className="md:col-span-7">
         <div className="meta flex flex-wrap items-center gap-x-3 gap-y-2">
