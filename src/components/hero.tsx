@@ -10,15 +10,15 @@ export function Hero() {
   ];
 
   return (
-    <section aria-labelledby="hero-title" className="mx-auto max-w-[1120px] px-4 pt-14 pb-4 md:px-8 md:pt-28">
+    <section aria-labelledby="hero-title" className="mx-auto max-w-[1120px] px-4 pt-10 md:px-8 md:pt-28 md:pb-4">
       <h1
         id="hero-title"
-        className="display display-wide text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.95] font-[650]"
+        className="display display-wide text-[clamp(3.5rem,11vw,8.25rem)] leading-[0.9] font-[650]"
       >
         {site.name}
       </h1>
 
-      <div className="mt-6 grid gap-y-10 md:mt-10 md:grid-cols-12 md:gap-x-8">
+      <div className="mt-6 grid gap-y-8 md:mt-10 md:grid-cols-12 md:gap-x-8">
         <div className="md:col-span-8">
           <p className="max-w-[24ch] text-[clamp(1.55rem,3.4vw,2.35rem)] leading-[1.18] tracking-[-0.01em] text-balance">
             {site.headline}

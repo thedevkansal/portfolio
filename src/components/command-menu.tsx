@@ -179,7 +179,7 @@ export function CommandMenu() {
               aria-activedescendant={filtered.length ? `${listId}-${cursor}` : undefined}
               autoComplete="off"
               spellCheck={false}
-              className="h-13 w-full bg-transparent font-serif text-base outline-none placeholder:text-muted"
+              className="h-13 w-full bg-transparent font-serif text-base outline-none placeholder:text-muted focus-visible:outline-none"
             />
             <kbd className="meta shrink-0 rounded border border-rule px-1.5 text-muted">Esc</kbd>
           </div>

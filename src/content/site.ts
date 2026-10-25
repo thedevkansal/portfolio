@@ -55,10 +55,10 @@ export const roles: Role[] = [
   },
   {
     role: "Head of Speakers",
-    org: "E-Summit'27, IIT Roorkee",
+    org: "E-Summit’27, IIT Roorkee",
     dates: "May 2026 – now",
     summary:
-      "On the team behind E-Summit'26: 3 days, 4,000+ attendees, 50+ events and 20+ keynotes. Built the check-in portal and Ripple for it.",
+      "On the team behind E-Summit’26: 3 days, 4,000+ attendees, 50+ events and 20+ keynotes. Built the check-in portal and Ripple for it.",
   },
   {
     role: "Head of Zero to One",

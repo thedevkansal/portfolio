@@ -86,7 +86,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               )}
               <dt className="text-muted">Stack</dt>
               <dd className="md:mb-4">
-                <ul>
+                <ul className="flex flex-wrap gap-x-3 md:block">
                   {p.stack.map((s) => (
                     <li key={s}>{s}</li>
                   ))}

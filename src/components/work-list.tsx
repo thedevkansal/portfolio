@@ -93,8 +93,8 @@ export function WorkList({ projects }: { projects: Card[] }) {
                     ))}
                   </ul>
                 </div>
-                <span className="meta col-start-2 mt-4 flex items-center gap-1.5 text-ink sm:col-start-3 sm:mt-0 sm:self-center sm:text-muted sm:group-hover:text-accent">
-                  <span className="sm:sr-only">Read the write-up</span>
+                <span className="meta col-start-2 mt-3 flex items-center text-ink sm:col-start-3 sm:mt-0 sm:self-center sm:text-muted sm:group-hover:text-accent">
+                  <span className="sr-only">Read the write-up</span>
                   <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
                 </span>
               </Link>
