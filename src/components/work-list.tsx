@@ -7,6 +7,9 @@ import type { Project } from "@/content/types";
 import { ArrowRight } from "./icons";
 import { Section } from "./section";
 
+/** Each row gets a sticker colour, cycling, used for its hover wash and preview frame. */
+const tints = ["var(--sky)", "var(--mint)", "var(--sun)", "var(--rose)"];
+
 type Card = Pick<Project, "slug" | "title" | "problem" | "stack" | "shot" | "context">;
 
 /**
@@ -29,26 +32,23 @@ export function WorkList({ projects }: { projects: Card[] }) {
           return (
             <figure
               key={p.slug}
-              className="absolute inset-0 overflow-hidden rounded-md border border-rule bg-surface transition-[clip-path,opacity] duration-[220ms] ease-out-soft"
+              className="absolute inset-0 overflow-hidden rounded-xl border border-rule p-2 transition-[clip-path,opacity] duration-[220ms] ease-out-soft"
               style={{
                 clipPath: on ? "inset(0 0 0 0)" : "inset(0 100% 0 0)",
                 opacity: on ? 1 : 0,
+                background: tints[i % tints.length],
               }}
             >
               {p.shot ? (
-                <Image
-                  src={p.shot.src}
-                  alt=""
-                  fill
-                  sizes="260px"
-                  className="object-cover object-top"
-                />
+                <div className="relative h-full overflow-hidden rounded-md">
+                  <Image src={p.shot.src} alt="" fill sizes="260px" className="object-cover object-top" />
+                </div>
               ) : (
                 <div className="flex h-full flex-col justify-between p-4">
-                  <span className="display display-narrow text-5xl font-light text-accent">
+                  <span className="display display-narrow text-5xl font-light text-sticker-ink">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="meta text-muted">No screenshots: private event data</span>
+                  <span className="meta text-sticker-ink/70">No screenshots: private event data</span>
                 </div>
               )}
             </figure>
@@ -64,17 +64,21 @@ export function WorkList({ projects }: { projects: Card[] }) {
         {projects.map((p, i) => {
           const n = String(i + 1).padStart(2, "0");
           return (
-            <li key={p.slug} className="border-b border-rule last:border-b-0">
+            <li
+              key={p.slug}
+              className="border-b border-rule last:border-b-0"
+              style={{ "--tint": tints[i % tints.length] } as React.CSSProperties}
+            >
               <Link
                 href={`/projects/${p.slug}`}
                 onMouseEnter={() => setActive(p.slug)}
                 onFocus={() => setActive(p.slug)}
                 onBlur={() => setActive(null)}
-                className="group -mx-3 grid grid-cols-[2.75rem_1fr] gap-x-3 rounded-lg px-3 py-6 transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-surface focus-visible:bg-surface sm:grid-cols-[4.5rem_1fr_auto] sm:gap-x-5 md:py-7"
+                className="group -mx-3 grid grid-cols-[2.75rem_1fr] gap-x-3 rounded-lg px-3 py-6 transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-[color-mix(in_oklab,var(--tint)_38%,var(--surface))] focus-visible:bg-[color-mix(in_oklab,var(--tint)_38%,var(--surface))] sm:grid-cols-[4.5rem_1fr_auto] sm:gap-x-5 md:py-7"
               >
                 <span
                   aria-hidden
-                  className="display display-narrow pt-0.5 text-[2.4rem] leading-[0.85] font-light text-muted tabular-nums transition-colors group-hover:text-accent sm:text-[3.4rem]"
+                  className="display display-narrow pt-0.5 text-[2.4rem] leading-[0.85] font-light text-muted tabular-nums transition-colors group-hover:text-ink sm:text-[3.4rem]"
                 >
                   {n}
                 </span>

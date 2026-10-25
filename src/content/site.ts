@@ -30,18 +30,6 @@ export const achievements: Achievement[] = [
     detail: "Third Prize, rank 35",
     date: "Oct 2026",
   },
-  {
-    title: "Codeforces Round 1104 (Div. 1 + Div. 2)",
-    detail: "Global rank 2906",
-    date: "2026",
-    href: "https://codeforces.com/profile/MoonKnight247",
-  },
-  {
-    title: "Graph Hacks, WeMakeDevs × FalkorDB",
-    detail: "Built Living Town, a graph memory engine for multi-agent systems",
-    date: "2026",
-    href: "/projects/living-town",
-  },
   // TODO: ETHGlobal Mumbai (Nov 2026): add the result once it's done.
 ];
 
@@ -54,13 +42,6 @@ export const roles: Role[] = [
       "Built 12+ REST APIs and backend services in Express, and shipped Next.js and Postgres features, for an AI astrology platform with 2,000+ users and 100+ paid subscribers.",
   },
   {
-    role: "Head of Speakers",
-    org: "E-Summit’27, IIT Roorkee",
-    dates: "May 2026 – now",
-    summary:
-      "On the team behind E-Summit’26: 3 days, 4,000+ attendees, 50+ events and 20+ keynotes. Built the check-in portal and Ripple for it.",
-  },
-  {
     role: "Head of Zero to One",
     org: "E-Cell, IIT Roorkee",
     dates: "May 2026 – now",
@@ -68,7 +49,7 @@ export const roles: Role[] = [
       "Lead a 60+ member team taking campus problems from 250+ surveys to PRDs and five MVPs.",
   },
   {
-    role: "Associate Coordinator",
+    role: "Placement Coordinator",
     org: "PIC, IIT Roorkee",
     dates: "May 2026 – now",
     summary:

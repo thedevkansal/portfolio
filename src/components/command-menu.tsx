@@ -165,7 +165,7 @@ export default function CommandMenu({ openOnMount = false }: { openOnMount?: boo
         aria-label="Command menu"
         onClick={(e) => e.target === e.currentTarget && close()}
       >
-        <div className="flex max-h-[inherit] flex-col">
+        <div className="flex max-h-[inherit] flex-col overflow-hidden">
           <div className="flex items-center gap-3 border-b border-rule px-4">
             <input
               ref={inputRef}
@@ -183,12 +183,12 @@ export default function CommandMenu({ openOnMount = false }: { openOnMount?: boo
               aria-activedescendant={filtered.length ? `${listId}-${cursor}` : undefined}
               autoComplete="off"
               spellCheck={false}
-              className="h-13 w-full bg-transparent font-serif text-base outline-none placeholder:text-muted focus-visible:outline-none"
+              className="h-13 w-full bg-transparent font-serif text-base outline-none placeholder:text-muted"
             />
             <kbd className="meta shrink-0 rounded border border-rule px-1.5 text-muted">Esc</kbd>
           </div>
 
-          <ul id={listId} role="listbox" aria-label="Commands" className="overflow-y-auto p-2">
+          <ul id={listId} role="listbox" aria-label="Commands" className="min-h-0 flex-1 overflow-y-auto p-2">
             {filtered.length === 0 && (
               <li className="meta px-3 py-8 text-center text-muted">Nothing matches “{query}”.</li>
             )}

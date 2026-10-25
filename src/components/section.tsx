@@ -16,7 +16,7 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="mx-auto mt-20 max-w-[1120px] px-4 md:mt-32 md:px-8">
+    <section id={id} aria-labelledby={`${id}-title`} className="mx-auto mt-16 max-w-[1120px] px-4 md:mt-24 md:px-8">
       <div data-reveal className="grid gap-x-8 gap-y-6 border-t border-rule pt-6 md:grid-cols-12 md:pt-8">
         <div className="md:col-span-3">
           <div className="md:sticky md:top-24">

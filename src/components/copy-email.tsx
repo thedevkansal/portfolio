@@ -19,10 +19,10 @@ export function CopyEmail({ email, className = "" }: { email: string; className?
     <button
       type="button"
       onClick={copy}
-      className={`meta inline-flex items-center gap-2 rounded-md border border-rule px-3 py-2 text-ink transition-colors hover:border-ink ${className}`}
+      className={`meta inline-flex items-center gap-2 rounded-md border px-3 py-2 transition-colors ${className || "border-rule text-ink hover:border-ink"}`}
     >
       <span>{email}</span>
-      <span className="text-muted" aria-live="polite">
+      <span className="opacity-70" aria-live="polite">
         {copied ? "Copied" : "Copy"}
       </span>
     </button>

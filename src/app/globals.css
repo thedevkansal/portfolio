@@ -2,13 +2,19 @@
 
 /* Tokens: see DESIGN.md. Light is the default; dark follows the system until toggled. */
 :root {
-  --bg: #f3f4f6;
+  --bg: #fafafc;
   --surface: #ffffff;
   --ink: #14161a;
   --muted: #5a616c;
-  --rule: #d9dce1;
-  --accent: #2340d9;
+  --rule: #e3e5ea;
+  --accent: #2b4bee;
   --accent-ink: #ffffff;
+  /* Sticker colours: always paired with --sticker-ink text. */
+  --sun: #ffd43b;
+  --mint: #a6ecc9;
+  --rose: #ffc0d3;
+  --sky: #c7d8ff;
+  --sticker-ink: #14161a;
   --shadow: 0 1px 0 rgb(20 22 26 / 0.04), 0 12px 32px -12px rgb(20 22 26 / 0.18);
   color-scheme: light;
 }
@@ -22,6 +28,11 @@
     --rule: #2a2e35;
     --accent: #93a5ff;
     --accent-ink: #121418;
+    --sun: #f2c94c;
+    --mint: #86d9b2;
+    --rose: #f2a7c0;
+    --sky: #a9c0ff;
+    --sticker-ink: #14161a;
     --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 16px 40px -12px rgb(0 0 0 / 0.6);
     color-scheme: dark;
   }
@@ -35,6 +46,11 @@
   --rule: #2a2e35;
   --accent: #93a5ff;
   --accent-ink: #121418;
+  --sun: #f2c94c;
+  --mint: #86d9b2;
+  --rose: #f2a7c0;
+  --sky: #a9c0ff;
+  --sticker-ink: #14161a;
   --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 16px 40px -12px rgb(0 0 0 / 0.6);
   color-scheme: dark;
 }
@@ -47,6 +63,11 @@
   --color-rule: var(--rule);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+  --color-sun: var(--sun);
+  --color-mint: var(--mint);
+  --color-rose: var(--rose);
+  --color-sky: var(--sky);
+  --color-sticker-ink: var(--sticker-ink);
   --font-display: var(--font-archivo);
   --font-serif: var(--font-source-serif);
   --font-mono: var(--font-fragment-mono);
@@ -85,10 +106,13 @@ body {
   color: var(--accent-ink);
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
+/* In the base layer so utilities (e.g. focus-visible:outline-none) can override it. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
 }
 
 /* Display face: Archivo's width axis does the expressive work. */
@@ -154,6 +178,18 @@ html.js [data-reveal].is-in {
   }
 }
 
+/* Stickers: small rotated fact cards around the portrait. Hover straightens them. */
+.sticker {
+  color: var(--sticker-ink);
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgb(20 22 26 / 0.08), 0 10px 24px -10px rgb(20 22 26 / 0.35);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 220ms var(--ease-out-soft);
+}
+.sticker:hover {
+  transform: rotate(0deg) translateY(-2px);
+}
+
 /* Command menu (native <dialog>) */
 dialog.cmdk {
   margin: 12vh auto auto;
@@ -165,6 +201,11 @@ dialog.cmdk {
   box-shadow: var(--shadow);
   width: min(560px, calc(100vw - 32px));
   max-height: min(520px, 76vh);
+  overflow: hidden;
+}
+dialog.cmdk [role="listbox"] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
 }
 dialog.cmdk[open] {
   animation: cmdk-in 140ms var(--ease-out-soft);

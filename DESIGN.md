@@ -99,3 +99,13 @@ Semantic landmarks (`header`, `nav`, `main`, `section[aria-labelledby]`, `footer
 ## Avoid
 
 Purple gradients, glassmorphism, particles, typing effects, emoji bullets, "Hi, I'm Dev 👋", skill bars, logo walls, identical shadowed cards, ALL-CAPS eyebrows.
+
+## Revision: cheerful pass
+
+The first build read as austere. Changes:
+
+- **Sticker palette** next to the cobalt accent: sun `#FFD43B`, mint `#A6ECC9`, rose `#FFC0D3`, sky `#C7D8FF`. Text on these is always `--sticker-ink` (`#14161A`). They're used only for fact stickers, the achievement card, project hover washes and preview frames. Never for body text.
+- **Hero portrait**: a real photo cut out locally with GrabCut (no generative edit, face untouched), sitting on a cobalt panel with a faint dot grid. The head breaks out above the panel. Three slightly rotated stickers carry real facts: the ICPC prize, local time, and E-Summit check-in volume. They straighten on hover.
+- **Contact** becomes a full cobalt panel with a casual avatar.
+- Background lifted to `#FAFAFC`. Section spacing tightened from 128px to 96px on desktop.
+- Stack items are rounded chips. Still grouped, still no logos.
