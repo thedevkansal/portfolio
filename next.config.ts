@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Stamped at build time; the footer shows it as "Last updated".
+  env: { BUILD_DATE: new Date().toISOString() },
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
