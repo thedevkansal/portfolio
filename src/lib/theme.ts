@@ -2,8 +2,7 @@ export type Theme = "light" | "dark";
 
 export function currentTheme(): Theme {
   const set = document.documentElement.dataset.theme;
-  if (set === "light" || set === "dark") return set;
-  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return set === "dark" ? "dark" : "light";
 }
 
 export function toggleTheme(): Theme {

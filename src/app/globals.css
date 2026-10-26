@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Tokens: see DESIGN.md. Light is the default; dark follows the system until toggled. */
+/* Tokens: see DESIGN.md. Light is the default; dark applies only when the visitor toggles it. */
 :root {
   --bg: #fafafc;
   --surface: #ffffff;
@@ -17,25 +17,6 @@
   --sticker-ink: #14161a;
   --shadow: 0 1px 0 rgb(20 22 26 / 0.04), 0 12px 32px -12px rgb(20 22 26 / 0.18);
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #121418;
-    --surface: #1a1d22;
-    --ink: #e8eaee;
-    --muted: #9aa1ac;
-    --rule: #2a2e35;
-    --accent: #93a5ff;
-    --accent-ink: #121418;
-    --sun: #f2c94c;
-    --mint: #86d9b2;
-    --rose: #f2a7c0;
-    --sky: #a9c0ff;
-    --sticker-ink: #14161a;
-    --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 16px 40px -12px rgb(0 0 0 / 0.6);
-    color-scheme: dark;
-  }
 }
 
 :root[data-theme="dark"] {
