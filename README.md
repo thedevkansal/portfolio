@@ -37,6 +37,6 @@ The project gets a card, a `/projects/<slug>` page, an OG image, a sitemap entry
 
 ## Deploy (Vercel)
 
-Import the repo in Vercel. No configuration is needed. Canonical URLs, the sitemap and OG images use `VERCEL_PROJECT_PRODUCTION_URL`. Production sets `NEXT_PUBLIC_SITE_URL=https://thedevkansal.vercel.app` so canonical URLs, the sitemap and OG images use the short domain.
+Pushes to `main` deploy automatically. Canonical URLs, the sitemap and OG images use `NEXT_PUBLIC_SITE_URL`, which production sets to `https://thedevkansal.vercel.app`. When it's unset they fall back to `VERCEL_PROJECT_PRODUCTION_URL`.
 
 The footer's "Last updated" date is stamped at build time.
