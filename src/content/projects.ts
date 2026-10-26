@@ -103,62 +103,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "living-town",
-    title: "Living Town",
-    problem:
-      "Memory for multi-agent systems that tracks how knowledge moves between agents, and can prove where every belief came from.",
-    year: "2026",
-    role: "Solo",
-    context: "Graph Hacks, WeMakeDevs × FalkorDB",
-    stack: ["Python", "FastAPI", "FalkorDB", "Cypher", "MCP", "React", "WebSockets"],
-    why: [
-      "Most agent-memory layers model what one agent knows. Living Town models how knowledge travels between agents, and shows it as a town of ten NPCs that gossip.",
-      "Steal the blacksmith’s hammer and only the blacksmith sees it. Over the next simulated hours the story spreads from person to person, losing confidence each time it’s retold, until a guard who saw nothing confronts you. Ask him “How do you know?” and he answers with the exact chain of people it came through.",
-    ],
-    approach: [
-      "Each agent’s memory is a subgraph in FalkorDB: what they saw (episodic), what they believe and who told them (semantic, with provenance), and what they know how to do (procedural). Telling someone a story adds a `TOLD` edge. The listener’s confidence is the speaker’s confidence × their trust in the speaker × 0.9, and below 0.3 the story is doubted rather than believed.",
-      "“How do you know?” is a variable-length path query back to the eyewitness, and the path is the explanation. No path means no answer, rather than a guess.",
-      "Agents coordinate through a shared task board in the graph, with atomic claims and handoffs. 19 memory tools are exposed over MCP, each backed by hand-written, parameterised Cypher, so the model picks tools and arguments but never writes queries. Every read and graph algorithm goes through `GRAPH.RO_QUERY`.",
-    ],
-    decision: {
-      title: "A graph per tenant, and agents that race",
-      body: [
-        "Isolation between players is structural, not a WHERE clause. Each player gets their own graph, `town:{player_id}`, on one FalkorDB instance. A crime in one world can’t leak into another, and deleting a stale world is a single `GRAPH.DELETE`.",
-        "Inside a world, all ten agents run each phase of a tick concurrently with `asyncio.gather`, against one graph. Competing claims on a task are settled by the database, not by app-side locks. A tick is 23–42 queries in about six sequential round trips, roughly 160 ms against FalkorDB Cloud. A built-in stress test runs 40 agents in 4 isolated worlds at about 450 writes/s on the free tier.",
-      ],
-    },
-    architecture: [
-      { step: "Tick", detail: "The FastAPI engine advances a world. All ten agents move at once, by schedule or by task." },
-      { step: "Gossip", detail: "Each agent concurrently passes on its most salient belief along `KNOWS` edges, writing `TOLD` and `BELIEVES`." },
-      { step: "Coordinate", detail: "Agents post, claim, work and hand off tasks. Races on claims are settled in the graph." },
-      { step: "Ask", detail: "Dialogue goes through a fixed tool catalogue (Claude tool use, or rule-based) and resolves names via full-text index first." },
-      { step: "Explain", detail: "Answers return the provenance path, and the UI draws it across the map over WebSocket." },
-    ],
-    learned: [
-      "Saying “I don’t know” is a feature. A path query that comes back empty is more trustworthy than a model that always answers.",
-      "Running graph algorithms (PageRank, betweenness, label propagation) inside the database, on live memory, beats exporting the data to analyse it.",
-    ],
-    links: [
-      { label: "GitHub", href: "https://github.com/thedevkansal/living-town" },
-      { label: "Live demo", href: "https://living-town.onrender.com" },
-      { label: "Demo video", href: "https://drive.google.com/drive/folders/1ML5B1YFaR68oqpZUXvne8zxoehw8B_qR" },
-    ],
-    shot: {
-      src: "/projects/living-town/provenance.png",
-      alt: "Living Town: the provenance thread from the theft through two townsfolk to the captain, drawn across the map beside his memory graph",
-      width: 1920,
-      height: 1080,
-    },
-    gallery: [
-      {
-        src: "/projects/living-town/confront.png",
-        alt: "Living Town at dawn on day two: the captain, who never saw the theft, confronts the player while the town talk log shows how the story travelled",
-        width: 1920,
-        height: 1080,
-      },
-    ],
-  },
-  {
     slug: "baaki",
     title: "Baaki",
     problem:
@@ -257,6 +201,62 @@ export const projects: Project[] = [
         alt: "Ripple recipient timeline: opens, clicks and the time between them for one contact",
         width: 2880,
         height: 990,
+      },
+    ],
+  },
+  {
+    slug: "living-town",
+    title: "Living Town",
+    problem:
+      "Memory for multi-agent systems that tracks how knowledge moves between agents, and can prove where every belief came from.",
+    year: "2026",
+    role: "Solo",
+    context: "Graph Hacks, WeMakeDevs × FalkorDB",
+    stack: ["Python", "FastAPI", "FalkorDB", "Cypher", "MCP", "React", "WebSockets"],
+    why: [
+      "Most agent-memory layers model what one agent knows. Living Town models how knowledge travels between agents, and shows it as a town of ten NPCs that gossip.",
+      "Steal the blacksmith’s hammer and only the blacksmith sees it. Over the next simulated hours the story spreads from person to person, losing confidence each time it’s retold, until a guard who saw nothing confronts you. Ask him “How do you know?” and he answers with the exact chain of people it came through.",
+    ],
+    approach: [
+      "Each agent’s memory is a subgraph in FalkorDB: what they saw (episodic), what they believe and who told them (semantic, with provenance), and what they know how to do (procedural). Telling someone a story adds a `TOLD` edge. The listener’s confidence is the speaker’s confidence × their trust in the speaker × 0.9, and below 0.3 the story is doubted rather than believed.",
+      "“How do you know?” is a variable-length path query back to the eyewitness, and the path is the explanation. No path means no answer, rather than a guess.",
+      "Agents coordinate through a shared task board in the graph, with atomic claims and handoffs. 19 memory tools are exposed over MCP, each backed by hand-written, parameterised Cypher, so the model picks tools and arguments but never writes queries. Every read and graph algorithm goes through `GRAPH.RO_QUERY`.",
+    ],
+    decision: {
+      title: "A graph per tenant, and agents that race",
+      body: [
+        "Isolation between players is structural, not a WHERE clause. Each player gets their own graph, `town:{player_id}`, on one FalkorDB instance. A crime in one world can’t leak into another, and deleting a stale world is a single `GRAPH.DELETE`.",
+        "Inside a world, all ten agents run each phase of a tick concurrently with `asyncio.gather`, against one graph. Competing claims on a task are settled by the database, not by app-side locks. A tick is 23–42 queries in about six sequential round trips, roughly 160 ms against FalkorDB Cloud. A built-in stress test runs 40 agents in 4 isolated worlds at about 450 writes/s on the free tier.",
+      ],
+    },
+    architecture: [
+      { step: "Tick", detail: "The FastAPI engine advances a world. All ten agents move at once, by schedule or by task." },
+      { step: "Gossip", detail: "Each agent concurrently passes on its most salient belief along `KNOWS` edges, writing `TOLD` and `BELIEVES`." },
+      { step: "Coordinate", detail: "Agents post, claim, work and hand off tasks. Races on claims are settled in the graph." },
+      { step: "Ask", detail: "Dialogue goes through a fixed tool catalogue (Claude tool use, or rule-based) and resolves names via full-text index first." },
+      { step: "Explain", detail: "Answers return the provenance path, and the UI draws it across the map over WebSocket." },
+    ],
+    learned: [
+      "Saying “I don’t know” is a feature. A path query that comes back empty is more trustworthy than a model that always answers.",
+      "Running graph algorithms (PageRank, betweenness, label propagation) inside the database, on live memory, beats exporting the data to analyse it.",
+    ],
+    links: [
+      { label: "GitHub", href: "https://github.com/thedevkansal/living-town" },
+      { label: "Live demo", href: "https://living-town.onrender.com" },
+      { label: "Demo video", href: "https://drive.google.com/drive/folders/1ML5B1YFaR68oqpZUXvne8zxoehw8B_qR" },
+    ],
+    shot: {
+      src: "/projects/living-town/provenance.png",
+      alt: "Living Town: the provenance thread from the theft through two townsfolk to the captain, drawn across the map beside his memory graph",
+      width: 1920,
+      height: 1080,
+    },
+    gallery: [
+      {
+        src: "/projects/living-town/confront.png",
+        alt: "Living Town at dawn on day two: the captain, who never saw the theft, confronts the player while the town talk log shows how the story travelled",
+        width: 1920,
+        height: 1080,
       },
     ],
   },
