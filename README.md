@@ -2,6 +2,8 @@
 
 Personal portfolio for Dev Kansal: a single page plus a write-up for each project.
 
+Live: https://thedevkansal.vercel.app
+
 Next.js 16 (App Router, Cache Components), TypeScript, Tailwind CSS 4. The design rules are in [DESIGN.md](DESIGN.md).
 
 ## Run
@@ -35,6 +37,6 @@ The project gets a card, a `/projects/<slug>` page, an OG image, a sitemap entry
 
 ## Deploy (Vercel)
 
-Import the repo in Vercel. No configuration is needed. Canonical URLs, the sitemap and OG images use `VERCEL_PROJECT_PRODUCTION_URL`. To use a custom domain, set `NEXT_PUBLIC_SITE_URL=https://your-domain`.
+Import the repo in Vercel. No configuration is needed. Canonical URLs, the sitemap and OG images use `VERCEL_PROJECT_PRODUCTION_URL`. Production sets `NEXT_PUBLIC_SITE_URL=https://thedevkansal.vercel.app` so canonical URLs, the sitemap and OG images use the short domain.
 
 The footer's "Last updated" date is stamped at build time.
