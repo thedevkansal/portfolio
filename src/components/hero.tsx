@@ -95,7 +95,7 @@ function Portrait() {
         />
         <div className="absolute inset-0 overflow-hidden rounded-b-[2rem]">
           <Image
-            src="/me/headshot.webp"
+            src="/me/headshot-v3.webp"
             alt="Dev Kansal in a black suit and tie, smiling"
             fill
             sizes="(min-width: 768px) 420px, 360px"

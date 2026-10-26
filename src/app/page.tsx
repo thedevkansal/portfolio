@@ -110,7 +110,7 @@ export default function Home() {
               <div className="max-w-[30rem]">
                 <h2 id="contact-title" className="meta flex items-center gap-3">
                   <Image
-                    src="/me/headshot-avatar.webp"
+                    src="/me/headshot-avatar-v3.webp"
                     alt=""
                     width={56}
                     height={56}
